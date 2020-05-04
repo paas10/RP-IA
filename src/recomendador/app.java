@@ -11,8 +11,10 @@ import java.util.*;
 
 public class app {
 
+    public ArrayList<Pelicula> Recomendaciones;
     public ArrayList<PeliculaLite> imbd;
     Pelicula[] peliculas;
+
     public int index1 = 0;
     public int index2 = 0;
     public int index3 = 0;
@@ -48,6 +50,7 @@ public class app {
     private JLabel Clasificacion2;
     private JLabel Clasificacion3;
     private JLabel Clasificacion4;
+    private JButton btnVerRecomendaciones;
 
 
     public app() {
@@ -187,6 +190,7 @@ public class app {
 
                         movie.Duration.AFavor++;
                         movie.Color.AFavor++;
+                        movie.Generes.Modificado = true;
                         for (sCategoria value : movie.Generes.Valores) {
                             value.AFavor++;
                         }
@@ -216,6 +220,7 @@ public class app {
                                     if (value.Valor.equals(movieValue.Valor)) {
                                         value.AFavor = movieValue.AFavor;
                                         pelicula.Generes.Modificado = true;
+                                        pelicula.modificado = true;
                                     }
                                 }
                             }
@@ -273,13 +278,41 @@ public class app {
                                 pelicula.modificado = true;
                             }
 
-
-
                         }
 
                         break;
                     }
                 }
+            }
+        });
+
+        btnVerRecomendaciones.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Recomendaciones = new ArrayList<Pelicula>();
+
+                for (Pelicula movie : peliculas) {
+                    movie.ObtenerProbabilidades();
+                    if (movie.votada)
+                    {
+                        movie.modificado = false;
+                    }
+                    Recomendaciones.add(new Pelicula(movie.MovieTitle, movie.Language.Valor, movie.ContentRating.Valor,
+                            movie.TitleYear.Valor, movie.Director.Valor, movie.pGustar, movie.pNoGustar));
+                }
+
+                Collections.sort(Recomendaciones, new Comparator<Pelicula>(){
+                    @Override
+                    public int compare(Pelicula o1, Pelicula o2) {
+                        return Double.valueOf(o2.pGustar).compareTo(o1.pGustar);
+                    }
+                });
+
+                for (int i = 0; i < 20; i++){
+                    System.out.println(Recomendaciones.get(i).MovieTitle + " - pGustar: " + Recomendaciones.get(i).pGustar);
+                }
+
             }
         });
     }
@@ -298,6 +331,7 @@ public class app {
 //                        boolean bPlotKeyWords = false;
             boolean language = false;
             boolean country = false;
+            boolean contentRating = false;
             boolean titleYear = false;
             boolean director = false;
             boolean actor1 = false;
@@ -316,16 +350,13 @@ public class app {
                     bGeneres = true;
                 }
             }
-//                        for (int j = 0; j < peliculas[i].PlotKeyWords.Valores.length; j++) {
-//                            if (peliculas[i].PlotKeyWords.Valores[j].Normalizador == 0){
-//                                plotKeyWords[j] = true;
-//                                bPlotKeyWords = true;
-//                            }
-//                        }
+
             if (peliculas[i].Language.Normalizador == 0)
                 language = true;
             if (peliculas[i].Country.Normalizador == 0)
                 country = true;
+            if (peliculas[i].ContentRating.Normalizador == 0)
+                contentRating = true;
             if (peliculas[i].TitleYear.Normalizador == 0)
                 titleYear = true;
             if (peliculas[i].Director.Normalizador == 0)
@@ -358,47 +389,40 @@ public class app {
                         }
                     }
                 }
-//                            if(bPlotKeyWords){
-//                                for (int j = 0; j < peliculas[i].PlotKeyWords.Valores.length; j++) {
-//                                    if (plotKeyWords[j]){
-//                                        // Palabras clave que aparecen en el resto de peliculas
-//                                        for (sCategoria value : movie.PlotKeyWords.Valores) {
-//                                            if (peliculas[i].PlotKeyWords.Valores[j].Valor.equals(value.Valor))
-//                                                peliculas[i].PlotKeyWords.Valores[j].Normalizador++;
-//                                        }
-//                                    }
-//                                }
-//                            }
+
                 if (language && movie.Language.Valor.equals(peliculas[i].Language.Valor))
                     peliculas[i].Language.Normalizador++;
                 if (country && movie.Country.Valor.equals(peliculas[i].Country.Valor))
                     peliculas[i].Country.Normalizador++;
+                if (contentRating && movie.ContentRating.Valor.equals(peliculas[i].ContentRating.Valor))
+                    peliculas[i].ContentRating.Normalizador++;
                 if (titleYear && movie.TitleYear.Rango == peliculas[i].TitleYear.Rango)
                     peliculas[i].TitleYear.Normalizador++;
                 if (director && movie.Director.Valor.equals(peliculas[i].Director.Valor))
                     peliculas[i].Director.Normalizador++;
+
                 if (actor1){
-                    if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor1.Valor))
+                    if (movie.Actor1.Valor.equals(peliculas[i].Actor1.Valor))
                         peliculas[i].Actor1.Normalizador++;
-                    else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor1.Valor))
+                    else if (movie.Actor2.Valor.equals(peliculas[i].Actor1.Valor))
                         peliculas[i].Actor1.Normalizador++;
-                    if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor1.Valor))
+                    if (movie.Actor3.Valor.equals(peliculas[i].Actor1.Valor))
                         peliculas[i].Actor1.Normalizador++;
                 }
                 if (actor2){
-                    if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor2.Valor))
+                    if (movie.Actor1.Valor.equals(peliculas[i].Actor2.Valor))
                         peliculas[i].Actor2.Normalizador++;
-                    else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor2.Valor))
+                    else if (movie.Actor2.Valor.equals(peliculas[i].Actor2.Valor))
                         peliculas[i].Actor2.Normalizador++;
-                    else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor2.Valor))
+                    else if (movie.Actor3.Valor.equals(peliculas[i].Actor2.Valor))
                         peliculas[i].Actor2.Normalizador++;
                 }
                 if (actor3){
-                    if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor3.Valor))
+                    if (movie.Actor1.Valor.equals(peliculas[i].Actor3.Valor))
                         peliculas[i].Actor3.Normalizador++;
-                    else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor3.Valor))
+                    else if (movie.Actor2.Valor.equals(peliculas[i].Actor3.Valor))
                         peliculas[i].Actor3.Normalizador++;
-                    else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor3.Valor))
+                    else if (movie.Actor3.Valor.equals(peliculas[i].Actor3.Valor))
                         peliculas[i].Actor3.Normalizador++;
                 }
 
@@ -419,14 +443,7 @@ public class app {
                         }
                     }
                 }
-//                            if (bPlotKeyWords){
-//                                for (int j = 0; j < movie.PlotKeyWords.Valores.length; j++){
-//                                    for (sCategoria gen : peliculas[i].PlotKeyWords.Valores) {
-//                                        if (movie.PlotKeyWords.Valores[j].Valor.equals(gen.Valor))
-//                                            movie.PlotKeyWords.Valores[j].Normalizador = gen.Normalizador;
-//                                    }
-//                                }
-//                            }
+
                 if (movie.Language.Normalizador == 0 && movie.Language.Valor.equals(peliculas[i].Language.Valor))
                     movie.Language.Normalizador = peliculas[i].Language.Normalizador;
                 if (movie.Country.Normalizador == 0 && movie.Country.Valor.equals(peliculas[i].Country.Valor))
@@ -435,20 +452,21 @@ public class app {
                     movie.TitleYear.Normalizador = peliculas[i].TitleYear.Normalizador;
                 if (movie.Director.Normalizador == 0 && movie.Director.Valor.equals(peliculas[i].Director.Valor))
                     movie.Director.Normalizador = peliculas[i].Director.Normalizador;
+
                 if (actor1){
-                    if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor1.Valor))
+                    if (movie.Actor1.Normalizador == 0 && movie.Actor1.Valor.equals(peliculas[i].Actor1.Valor))
                         movie.Actor1.Normalizador = peliculas[i].Actor1.Normalizador;
-                    else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor1.Valor))
+                    else if (movie.Actor2.Normalizador == 0 && movie.Actor2.Valor.equals(peliculas[i].Actor1.Valor))
                         movie.Actor2.Normalizador = peliculas[i].Actor1.Normalizador;
-                    else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor1.Valor))
+                    else if (movie.Actor3.Normalizador == 0 && movie.Actor3.Valor.equals(peliculas[i].Actor1.Valor))
                         movie.Actor3.Normalizador = peliculas[i].Actor1.Normalizador;
                 }
                 if (actor2){
-                    if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor2.Valor))
+                    if (movie.Actor1.Normalizador == 0 && movie.Actor1.Valor.equals(peliculas[i].Actor2.Valor))
                         movie.Actor1.Normalizador = peliculas[i].Actor2.Normalizador;
-                    else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor2.Valor))
+                    else if (movie.Actor2.Normalizador == 0 && movie.Actor2.Valor.equals(peliculas[i].Actor2.Valor))
                         movie.Actor2.Normalizador = peliculas[i].Actor2.Normalizador;
-                    else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor2.Valor))
+                    else if (movie.Actor3.Normalizador == 0 && movie.Actor3.Valor.equals(peliculas[i].Actor2.Valor))
                         movie.Actor3.Normalizador = peliculas[i].Actor2.Normalizador;
                 }
                 if (actor3){
