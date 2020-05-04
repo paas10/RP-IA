@@ -36,8 +36,11 @@ public class Pelicula {
         this.interes = false;
         this.modificado = false;
 
+        // Probabilidades
         this.pGustar = 0.0;
         this.pNoGustar = 0.0;
+
+        // Suma de logaritmos naturales
         this.AFavor = 0.0;
         this.EnContra = 0.0;
 

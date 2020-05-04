@@ -10,23 +10,62 @@ import java.util.Collections;
 import java.util.*;
 
 public class app {
+
+    public ArrayList<PeliculaLite> imbd;
+    Pelicula[] peliculas;
+    public int index1 = 0;
+    public int index2 = 0;
+    public int index3 = 0;
+    public int index4 = 0;
+
     private JButton btnPrueba;
     private JPanel mainPanel;
+    private JButton btnSiPelicula1;
+    private JButton btnNoPelicula1;
+    private JButton btnSiPelicula2;
+    private JButton btnNoPelicula2;
+    private JButton btnSiPelicula3;
+    private JButton btnNoPelicula3;
+    private JButton btnSiPelicula4;
+    private JButton btnNoPelicula4;
+    private JLabel Pelicula1;
+    private JLabel Pelicula2;
+    private JLabel Pelicula3;
+    private JLabel Pelicula4;
+    private JButton Derecha1;
+    private JButton Izquierda1;
+    private JButton button3;
+    private JButton button4;
+    private JLabel Director1;
+    private JLabel Anio1;
+    private JLabel Clasificacion1;
+    private JLabel Director2;
+    private JLabel Director3;
+    private JLabel Director4;
+    private JLabel Anio2;
+    private JLabel Anio3;
+    private JLabel Anio4;
+    private JLabel Clasificacion2;
+    private JLabel Clasificacion3;
+    private JLabel Clasificacion4;
+
 
     public app() {
+        // Botón que recupera la info y la normaliza
         btnPrueba.addActionListener(new ActionListener() {
             @Override
 
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Pelicula[] peliculas = readFile();
+                    peliculas = readFile();
                     JOptionPane.showMessageDialog(null, "Todas las peliculas han sido recuperadas");
 
                     peliculas = normailizarData(peliculas);
 
-                    ArrayList<PeliculaLite> imbd = new ArrayList<PeliculaLite>();
+                    imbd = new ArrayList<PeliculaLite>();
                     for (Pelicula pelicula: peliculas) {
-                        imbd.add(new PeliculaLite(pelicula.MovieTitle, pelicula.MovieFaceBookLikes, pelicula.imdbScore));
+                        imbd.add(new PeliculaLite(pelicula.MovieTitle, pelicula.Language.Valor, pelicula.ContentRating.Valor, pelicula.TitleYear.Valor,
+                                pelicula.Director.Valor, pelicula.MovieFaceBookLikes, pelicula.imdbScore));
                     }
 
                     Collections.sort(imbd, new Comparator<PeliculaLite>(){
@@ -36,6 +75,31 @@ public class app {
                         }
                     });
 
+                    index1 = 0;
+                    index2 = 1;
+                    index3 = 2;
+                    index4 = 3;
+
+                    Pelicula1.setText(imbd.get(index1).MovieTitle);
+                    Director1.setText(imbd.get(index1).Director);
+                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
+                    Clasificacion1.setText(imbd.get(index1).ContentRating);
+
+                    Pelicula2.setText(imbd.get(index2).MovieTitle);
+                    Director2.setText(imbd.get(index2).Director);
+                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
+                    Clasificacion2.setText(imbd.get(index2).ContentRating);
+
+                    Pelicula3.setText(imbd.get(index3).MovieTitle);
+                    Director3.setText(imbd.get(index3).Director);
+                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
+                    Clasificacion3.setText(imbd.get(index3).ContentRating);
+
+                    Pelicula4.setText(imbd.get(index4).MovieTitle);
+                    Director4.setText(imbd.get(index4).Director);
+                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
+                    Clasificacion4.setText(imbd.get(index4).ContentRating);
+
                     JOptionPane.showMessageDialog(null, "Se ha finalizado");
 
                 } catch (FileNotFoundException fileNotFoundException) {
@@ -43,6 +107,180 @@ public class app {
                 }
             }
 
+        });
+
+        Derecha1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (index4 != imbd.size() - 1){
+                    index1++;
+                    index2++;
+                    index3++;
+                    index4++;
+
+                    Pelicula1.setText(imbd.get(index1).MovieTitle);
+                    Director1.setText(imbd.get(index1).Director);
+                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
+                    Clasificacion1.setText(imbd.get(index1).ContentRating);
+
+                    Pelicula2.setText(imbd.get(index2).MovieTitle);
+                    Director2.setText(imbd.get(index2).Director);
+                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
+                    Clasificacion2.setText(imbd.get(index2).ContentRating);
+
+                    Pelicula3.setText(imbd.get(index3).MovieTitle);
+                    Director3.setText(imbd.get(index3).Director);
+                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
+                    Clasificacion3.setText(imbd.get(index3).ContentRating);
+
+                    Pelicula4.setText(imbd.get(index4).MovieTitle);
+                    Director4.setText(imbd.get(index4).Director);
+                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
+                    Clasificacion4.setText(imbd.get(index4).ContentRating);
+                }
+            }
+        });
+        Izquierda1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (index1 != 0){
+                    index1--;
+                    index2--;
+                    index3--;
+                    index4--;
+
+                    Pelicula1.setText(imbd.get(index1).MovieTitle);
+                    Director1.setText(imbd.get(index1).Director);
+                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
+                    Clasificacion1.setText(imbd.get(index1).ContentRating);
+
+                    Pelicula2.setText(imbd.get(index2).MovieTitle);
+                    Director2.setText(imbd.get(index2).Director);
+                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
+                    Clasificacion2.setText(imbd.get(index2).ContentRating);
+
+                    Pelicula3.setText(imbd.get(index3).MovieTitle);
+                    Director3.setText(imbd.get(index3).Director);
+                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
+                    Clasificacion3.setText(imbd.get(index3).ContentRating);
+
+                    Pelicula4.setText(imbd.get(index4).MovieTitle);
+                    Director4.setText(imbd.get(index4).Director);
+                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
+                    Clasificacion4.setText(imbd.get(index4).ContentRating);
+                }
+            }
+        });
+
+        btnSiPelicula1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String nombrePeli = imbd.get(index1).MovieTitle;
+
+                for (Pelicula movie : peliculas) {
+                    if (movie.MovieTitle.equals(nombrePeli)){
+                        movie.votada = true;
+                        movie.modificado = true;
+
+                        movie.Duration.AFavor++;
+                        movie.Color.AFavor++;
+                        for (sCategoria value : movie.Generes.Valores) {
+                            value.AFavor++;
+                        }
+                        movie.Language.AFavor++;
+                        movie.Country.AFavor++;
+                        movie.ContentRating.AFavor++;
+                        movie.TitleYear.AFavor++;
+                        movie.Director.AFavor++;
+                        movie.Actor1.AFavor++;
+                        movie.Actor2.AFavor++;
+                        movie.Actor3.AFavor++;
+
+                        // Se actualizan los normalizadores del resto de peliculas
+                        for (Pelicula pelicula : peliculas) {
+                            if (pelicula.Duration.Rango == movie.Duration.Rango) {
+                                pelicula.Duration.AFavor = movie.Duration.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
+                                pelicula.Color.AFavor = movie.Color.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            for (sCategoria value : pelicula.Generes.Valores) {
+                                for (sCategoria movieValue : movie.Generes.Valores) {
+                                    if (value.Valor.equals(movieValue.Valor)) {
+                                        value.AFavor = movieValue.AFavor;
+                                        pelicula.Generes.Modificado = true;
+                                    }
+                                }
+                            }
+
+                            if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
+                                pelicula.Language.AFavor = movie.Language.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
+                                pelicula.Country.AFavor = movie.Country.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
+                                pelicula.TitleYear.AFavor = movie.TitleYear.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
+                                pelicula.Director.AFavor = movie.Director.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
+                                pelicula.Actor1.AFavor = movie.Actor1.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
+                                pelicula.Actor2.AFavor = movie.Actor1.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
+                                pelicula.Actor3.AFavor = movie.Actor1.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
+                                pelicula.Actor1.AFavor = movie.Actor2.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
+                                pelicula.Actor2.AFavor = movie.Actor2.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                                pelicula.Actor3.AFavor = movie.Actor3.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+                            if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
+                                pelicula.Actor1.AFavor = movie.Actor3.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
+                                pelicula.Actor2.AFavor = movie.Actor3.AFavor;
+                                pelicula.modificado = true;
+                            } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                                pelicula.Actor3.AFavor = movie.Actor3.AFavor;
+                                pelicula.modificado = true;
+                            }
+
+
+
+                        }
+
+                        break;
+                    }
+                }
+            }
         });
     }
 
@@ -201,23 +439,23 @@ public class app {
                     if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor1.Valor))
                         movie.Actor1.Normalizador = peliculas[i].Actor1.Normalizador;
                     else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor1.Valor))
-                        peliculas[i].Actor1.Normalizador = peliculas[i].Actor1.Normalizador;
+                        movie.Actor2.Normalizador = peliculas[i].Actor1.Normalizador;
                     else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor1.Valor))
-                        peliculas[i].Actor1.Normalizador = peliculas[i].Actor1.Normalizador;
+                        movie.Actor3.Normalizador = peliculas[i].Actor1.Normalizador;
                 }
                 if (actor2){
                     if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor2.Valor))
-                        movie.Actor2.Normalizador = peliculas[i].Actor2.Normalizador;
+                        movie.Actor1.Normalizador = peliculas[i].Actor2.Normalizador;
                     else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor2.Valor))
                         movie.Actor2.Normalizador = peliculas[i].Actor2.Normalizador;
                     else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor2.Valor))
-                        movie.Actor2.Normalizador = peliculas[i].Actor2.Normalizador;
+                        movie.Actor3.Normalizador = peliculas[i].Actor2.Normalizador;
                 }
                 if (actor3){
                     if (movie.Actor1.Normalizador != 0 && movie.Actor1.Valor.equals(peliculas[i].Actor3.Valor))
-                        movie.Actor3.Normalizador = peliculas[i].Actor3.Normalizador;
+                        movie.Actor1.Normalizador = peliculas[i].Actor3.Normalizador;
                     else if (movie.Actor2.Normalizador != 0 && movie.Actor2.Valor.equals(peliculas[i].Actor3.Valor))
-                        movie.Actor3.Normalizador = peliculas[i].Actor3.Normalizador;
+                        movie.Actor2.Normalizador = peliculas[i].Actor3.Normalizador;
                     else if (movie.Actor3.Normalizador != 0 && movie.Actor3.Valor.equals(peliculas[i].Actor3.Valor))
                         movie.Actor3.Normalizador = peliculas[i].Actor3.Normalizador;
                 }
