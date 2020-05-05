@@ -4,6 +4,7 @@ import com.sun.media.sound.SF2GlobalRegion;
 import com.sun.tools.javah.Gen;
 
 public class Pelicula {
+
     // Bandera que indica si el titulo ya ha sido votado por el usuario
     boolean votada = false;
     // Bandera que indica si el usuario está interesado en el titulo (Reservado / Watchlist)
@@ -85,6 +86,7 @@ public class Pelicula {
     }
 
     public void ObtenerProbabilidades(){
+
         if (Generes.Modificado) {
             double favor = 0.0;
             double contra = 0.0;
@@ -92,8 +94,13 @@ public class Pelicula {
             for (sCategoria value : Generes.Valores) {
                 if (value.AFavor != 0)
                     favor += Math.log(value.AFavor/value.Normalizador);
+                else
+                    favor += Math.log(1/(value.Normalizador*2));
+
                 if (value.EnContra != 0)
                     contra += Math.log(value.EnContra/value.Normalizador);
+                else
+                    contra += Math.log(1/(value.Normalizador*2));
             }
 
             Generes.AFavor = favor;
@@ -102,63 +109,126 @@ public class Pelicula {
         }
 
         if (modificado){
+
             double favor = 0.0;
             double contra = 0.0;
 
             if (Duration.AFavor != 0)
                 favor += Math.log(Duration.AFavor/Duration.Normalizador);
+            else
+                favor += Math.log(1/(Duration.Normalizador*2));
+
             if (Duration.EnContra != 0)
                 contra += Math.log(Duration.EnContra/Duration.Normalizador);
+            else
+                contra += Math.log(1/(Duration.Normalizador*2));
+
 
             if (Color.AFavor != 0)
                 favor += Math.log(Color.AFavor/Color.Normalizador);
+            else
+                favor += Math.log(1/(Color.Normalizador*2));
+
             if (Color.EnContra != 0)
                 contra += Math.log(Color.EnContra/Color.Normalizador);
+            else
+                contra += Math.log(1/(Color.Normalizador*2));
+
 
             if (Generes.AFavor != 0)
                 favor += Generes.AFavor;
+
             if (Generes.EnContra != 0)
                 contra += Generes.EnContra;
 
+
             if (Language.AFavor != 0)
                 favor += Math.log(Language.AFavor/Language.Normalizador);
+            else
+                favor += Math.log(1/(Language.Normalizador*2));
+
             if (Language.EnContra != 0)
                 contra += Math.log(Language.EnContra/Language.Normalizador);
+            else
+                contra += Math.log(1/(Language.Normalizador*2));
+
 
             if (Country.AFavor != 0)
                 favor += Math.log(Country.AFavor/Country.Normalizador);
+            else
+                favor += Math.log(1/(Country.Normalizador*2));
+
             if (Country.EnContra != 0)
                 contra += Math.log(Country.EnContra/Country.Normalizador);
+            else
+                contra += Math.log(1/(Country.Normalizador*2));
+
 
             if (ContentRating.AFavor != 0)
                 favor += Math.log(ContentRating.AFavor/ContentRating.Normalizador);
+            else
+                favor += Math.log(1/(ContentRating.Normalizador*2));
+
             if (ContentRating.EnContra != 0)
                 contra += Math.log(ContentRating.EnContra/ContentRating.Normalizador);
+            else
+                contra += Math.log(1/(ContentRating.Normalizador*2));
+
 
             if (TitleYear.AFavor != 0)
                 favor += Math.log(TitleYear.AFavor/TitleYear.Normalizador);
+            else
+                favor += Math.log(1/(TitleYear.Normalizador*2));
+
             if (TitleYear.EnContra != 0)
                 contra += Math.log(TitleYear.EnContra/TitleYear.Normalizador);
+            else
+                contra += Math.log(1/(TitleYear.Normalizador*2));
+
 
             if (Director.AFavor != 0)
                 favor += Math.log(Director.AFavor/Director.Normalizador);
+            else
+                favor += Math.log(1/(Director.Normalizador*2));
+
             if (Director.EnContra != 0)
                 contra += Math.log(Director.EnContra/Director.Normalizador);
+            else
+                contra += Math.log(1/(Director.Normalizador*2));
+
 
             if (Actor1.AFavor != 0)
                 favor += Math.log(Actor1.AFavor/Actor1.Normalizador);
+            else
+                favor += Math.log(1/(Actor1.Normalizador*2));
+
             if (Actor1.EnContra != 0)
                 contra += Math.log(Actor1.EnContra/Actor1.Normalizador);
+            else
+                contra += Math.log(1/(Actor1.Normalizador*2));
+
 
             if (Actor2.AFavor != 0)
                 favor += Math.log(Actor2.AFavor/Actor2.Normalizador);
+            else
+                favor += Math.log(1/(Actor2.Normalizador*2));
+
             if (Actor2.EnContra != 0)
                 contra += Math.log(Actor2.EnContra/Actor2.Normalizador);
+            else
+                contra += Math.log(1/(Actor2.Normalizador*2));
+
 
             if (Actor3.AFavor != 0)
                 favor += Math.log(Actor3.AFavor/Actor3.Normalizador);
+            else
+                favor += Math.log(1/(Actor3.Normalizador*2));
+
             if (Actor3.EnContra != 0)
                 contra += Math.log(Actor3.EnContra/Actor3.Normalizador);
+            else
+                contra += Math.log(1/(Actor3.Normalizador*2));
+
 
             AFavor = favor + pPeliculaSi;
             EnContra = contra + pPeliculaNo;
