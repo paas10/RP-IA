@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Collections;
 import java.util.*;
@@ -16,10 +17,17 @@ public class app {
     public ArrayList<PeliculaLite> imbd;
     Pelicula[] peliculas;
 
+    DecimalFormat df = new DecimalFormat("#.00000");
+
     public int index1 = 0;
     public int index2 = 0;
     public int index3 = 0;
     public int index4 = 0;
+
+    public int index5 = 0;
+    public int index6 = 0;
+    public int index7 = 0;
+    public int index8 = 0;
 
     private JButton btnPrueba;
     private JPanel mainPanel;
@@ -37,8 +45,8 @@ public class app {
     private JLabel Pelicula4;
     private JButton Derecha1;
     private JButton Izquierda1;
-    private JButton button3;
-    private JButton button4;
+    private JButton Izquierda2;
+    private JButton Derecha2;
     private JLabel Director1;
     private JLabel Anio1;
     private JLabel Clasificacion1;
@@ -52,6 +60,34 @@ public class app {
     private JLabel Clasificacion3;
     private JLabel Clasificacion4;
     private JButton btnVerRecomendaciones;
+    private JLabel probabilidad5;
+    private JLabel probabilidad6;
+    private JLabel probabilidad7;
+    private JLabel probabilidad8;
+    private JButton btnSiPelicula5;
+    private JButton btnSiPelicula6;
+    private JButton btnSiPelicula7;
+    private JButton btnSiPelicula8;
+    private JButton btnNoPelicula5;
+    private JButton btnNoPelicula7;
+    private JButton btnNoPelicula6;
+    private JButton btnNoPelicula8;
+    private JLabel Pelicula5;
+    private JLabel Pelicula6;
+    private JLabel Pelicula7;
+    private JLabel Pelicula8;
+    private JLabel Director5;
+    private JLabel Director6;
+    private JLabel Director7;
+    private JLabel Director8;
+    private JLabel Anio5;
+    private JLabel Anio6;
+    private JLabel Anio7;
+    private JLabel Anio8;
+    private JLabel Clasificacion5;
+    private JLabel Clasificacion6;
+    private JLabel Clasificacion8;
+    private JLabel Clasificacion7;
 
 
     public app() {
@@ -120,7 +156,6 @@ public class app {
 
 
 
-
         Derecha1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,61 +166,7 @@ public class app {
                     index3++;
                     index4++;
 
-                    Pelicula1.setText(imbd.get(index1).MovieTitle);
-                    Director1.setText(imbd.get(index1).Director);
-                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
-                    Clasificacion1.setText(imbd.get(index1).ContentRating);
-                    if (imbd.get(index1).bPositivo)
-                        btnSiPelicula1.setForeground(Color.red);
-                    else
-                        btnSiPelicula1.setForeground(Color.black);
-                    if (imbd.get(index1).bNegativo)
-                        btnNoPelicula1.setForeground(Color.blue);
-                    else
-                        btnNoPelicula1.setForeground(Color.black);
-
-
-                    Pelicula2.setText(imbd.get(index2).MovieTitle);
-                    Director2.setText(imbd.get(index2).Director);
-                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
-                    Clasificacion2.setText(imbd.get(index2).ContentRating);
-                    if (imbd.get(index2).bPositivo)
-                        btnSiPelicula2.setForeground(Color.red);
-                    else
-                        btnSiPelicula2.setForeground(Color.black);
-                    if (imbd.get(index2).bNegativo)
-                        btnNoPelicula2.setForeground(Color.blue);
-                    else
-                        btnNoPelicula2.setForeground(Color.black);
-
-
-                    Pelicula3.setText(imbd.get(index3).MovieTitle);
-                    Director3.setText(imbd.get(index3).Director);
-                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
-                    Clasificacion3.setText(imbd.get(index3).ContentRating);
-                    if (imbd.get(index3).bPositivo)
-                        btnSiPelicula3.setForeground(Color.red);
-                    else
-                        btnSiPelicula3.setForeground(Color.black);
-                    if (imbd.get(index3).bNegativo)
-                        btnNoPelicula3.setForeground(Color.blue);
-                    else
-                        btnNoPelicula3.setForeground(Color.black);
-
-
-                    Pelicula4.setText(imbd.get(index4).MovieTitle);
-                    Director4.setText(imbd.get(index4).Director);
-                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
-                    Clasificacion4.setText(imbd.get(index4).ContentRating);
-                    if (imbd.get(index4).bPositivo)
-                        btnSiPelicula4.setForeground(Color.red);
-                    else
-                        btnSiPelicula4.setForeground(Color.black);
-                    if (imbd.get(index4).bNegativo)
-                        btnNoPelicula4.setForeground(Color.blue);
-                    else
-                        btnNoPelicula4.setForeground(Color.black);
-
+                    RefrescarFaceBookLikes();
                 }
             }
         });
@@ -199,60 +180,7 @@ public class app {
                     index3--;
                     index4--;
 
-                    Pelicula1.setText(imbd.get(index1).MovieTitle);
-                    Director1.setText(imbd.get(index1).Director);
-                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
-                    Clasificacion1.setText(imbd.get(index1).ContentRating);
-                    if (imbd.get(index1).bPositivo)
-                        btnSiPelicula1.setForeground(Color.red);
-                    else
-                        btnSiPelicula1.setForeground(Color.black);
-                    if (imbd.get(index1).bNegativo)
-                        btnNoPelicula1.setForeground(Color.blue);
-                    else
-                        btnNoPelicula1.setForeground(Color.black);
-
-
-                    Pelicula2.setText(imbd.get(index2).MovieTitle);
-                    Director2.setText(imbd.get(index2).Director);
-                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
-                    Clasificacion2.setText(imbd.get(index2).ContentRating);
-                    if (imbd.get(index2).bPositivo)
-                        btnSiPelicula2.setForeground(Color.red);
-                    else
-                        btnSiPelicula2.setForeground(Color.black);
-                    if (imbd.get(index2).bNegativo)
-                        btnNoPelicula2.setForeground(Color.blue);
-                    else
-                        btnNoPelicula2.setForeground(Color.black);
-
-
-                    Pelicula3.setText(imbd.get(index3).MovieTitle);
-                    Director3.setText(imbd.get(index3).Director);
-                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
-                    Clasificacion3.setText(imbd.get(index3).ContentRating);
-                    if (imbd.get(index3).bPositivo)
-                        btnSiPelicula3.setForeground(Color.red);
-                    else
-                        btnSiPelicula3.setForeground(Color.black);
-                    if (imbd.get(index3).bNegativo)
-                        btnNoPelicula3.setForeground(Color.blue);
-                    else
-                        btnNoPelicula3.setForeground(Color.black);
-
-
-                    Pelicula4.setText(imbd.get(index4).MovieTitle);
-                    Director4.setText(imbd.get(index4).Director);
-                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
-                    Clasificacion4.setText(imbd.get(index4).ContentRating);
-                    if (imbd.get(index4).bPositivo)
-                        btnSiPelicula4.setForeground(Color.red);
-                    else
-                        btnSiPelicula4.setForeground(Color.black);
-                    if (imbd.get(index4).bNegativo)
-                        btnNoPelicula4.setForeground(Color.blue);
-                    else
-                        btnNoPelicula4.setForeground(Color.black);
+                    RefrescarFaceBookLikes();
                 }
             }
         });
@@ -395,6 +323,7 @@ public class app {
 
             }
         });
+        
 
         btnVerRecomendaciones.addActionListener(new ActionListener() {
             @Override
@@ -424,11 +353,150 @@ public class app {
                     System.out.println(Recomendaciones.get(i).MovieTitle + " - pGustar: " + Recomendaciones.get(i).pGustar);
                 }
 
+                index5 = 0;
+                index6 = 1;
+                index7 = 2;
+                index8 = 3;
+
+                Pelicula5.setText(Recomendaciones.get(index5).MovieTitle);
+                Director5.setText(Recomendaciones.get(index5).Director.Valor);
+                Anio5.setText(Integer.toString(Recomendaciones.get(index5).TitleYear.Valor));
+                Clasificacion5.setText(Recomendaciones.get(index5).ContentRating.Valor);
+                probabilidad5.setText(String.format("%.5f", Recomendaciones.get(index5).pGustar));
+
+                Pelicula6.setText(Recomendaciones.get(index6).MovieTitle);
+                Director6.setText(Recomendaciones.get(index6).Director.Valor);
+                Anio6.setText(Integer.toString(Recomendaciones.get(index6).TitleYear.Valor));
+                Clasificacion6.setText(Recomendaciones.get(index6).ContentRating.Valor);
+                probabilidad6.setText(String.format("%.5f", Recomendaciones.get(index6).pGustar));
+
+                Pelicula7.setText(Recomendaciones.get(index7).MovieTitle);
+                Director7.setText(Recomendaciones.get(index7).Director.Valor);
+                Anio7.setText(Integer.toString(Recomendaciones.get(index7).TitleYear.Valor));
+                Clasificacion7.setText(Recomendaciones.get(index7).ContentRating.Valor);
+                probabilidad7.setText(String.format("%.5f", Recomendaciones.get(index7).pGustar));
+
+                Pelicula8.setText(Recomendaciones.get(index8).MovieTitle);
+                Director8.setText(Recomendaciones.get(index8).Director.Valor);
+                Anio8.setText(Integer.toString(Recomendaciones.get(index8).TitleYear.Valor));
+                Clasificacion8.setText(Recomendaciones.get(index8).ContentRating.Valor);
+                probabilidad8.setText(String.format("%.5f", Recomendaciones.get(index8).pGustar));
+
             }
         });
 
+        Derecha2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (index8 != 0){
+                    index5++;
+                    index6++;
+                    index7++;
+                    index8++;
+
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+        Izquierda2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (index5 != 0){
+                    index5--;
+                    index6--;
+                    index7--;
+                    index8--;
+
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+    }
+
+    public void RefrescarFaceBookLikes(){
+        Pelicula1.setText(imbd.get(index1).MovieTitle);
+        Director1.setText(imbd.get(index1).Director);
+        Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
+        Clasificacion1.setText(imbd.get(index1).ContentRating);
+        if (imbd.get(index1).bPositivo)
+            btnSiPelicula1.setForeground(Color.red);
+        else
+            btnSiPelicula1.setForeground(Color.black);
+        if (imbd.get(index1).bNegativo)
+            btnNoPelicula1.setForeground(Color.blue);
+        else
+            btnNoPelicula1.setForeground(Color.black);
 
 
+        Pelicula2.setText(imbd.get(index2).MovieTitle);
+        Director2.setText(imbd.get(index2).Director);
+        Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
+        Clasificacion2.setText(imbd.get(index2).ContentRating);
+        if (imbd.get(index2).bPositivo)
+            btnSiPelicula2.setForeground(Color.red);
+        else
+            btnSiPelicula2.setForeground(Color.black);
+        if (imbd.get(index2).bNegativo)
+            btnNoPelicula2.setForeground(Color.blue);
+        else
+            btnNoPelicula2.setForeground(Color.black);
+
+
+        Pelicula3.setText(imbd.get(index3).MovieTitle);
+        Director3.setText(imbd.get(index3).Director);
+        Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
+        Clasificacion3.setText(imbd.get(index3).ContentRating);
+        if (imbd.get(index3).bPositivo)
+            btnSiPelicula3.setForeground(Color.red);
+        else
+            btnSiPelicula3.setForeground(Color.black);
+        if (imbd.get(index3).bNegativo)
+            btnNoPelicula3.setForeground(Color.blue);
+        else
+            btnNoPelicula3.setForeground(Color.black);
+
+
+        Pelicula4.setText(imbd.get(index4).MovieTitle);
+        Director4.setText(imbd.get(index4).Director);
+        Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
+        Clasificacion4.setText(imbd.get(index4).ContentRating);
+        if (imbd.get(index4).bPositivo)
+            btnSiPelicula4.setForeground(Color.red);
+        else
+            btnSiPelicula4.setForeground(Color.black);
+        if (imbd.get(index4).bNegativo)
+            btnNoPelicula4.setForeground(Color.blue);
+        else
+            btnNoPelicula4.setForeground(Color.black);
+    }
+    public void RefrescarRecomendaciones(){
+        Pelicula5.setText(Recomendaciones.get(index5).MovieTitle);
+        Director5.setText(Recomendaciones.get(index5).Director.Valor);
+        Anio5.setText(Integer.toString(Recomendaciones.get(index5).TitleYear.Valor));
+        Clasificacion5.setText(Recomendaciones.get(index5).ContentRating.Valor);
+        probabilidad5.setText("Compatibilidad" + df.format(Recomendaciones.get(index5).pGustar));
+
+        Pelicula6.setText(Recomendaciones.get(index6).MovieTitle);
+        Director6.setText(Recomendaciones.get(index6).Director.Valor);
+        Anio6.setText(Integer.toString(Recomendaciones.get(index6).TitleYear.Valor));
+        Clasificacion6.setText(Recomendaciones.get(index6).ContentRating.Valor);
+        probabilidad6.setText("Compatibilidad" + df.format(Recomendaciones.get(index6).pGustar));
+
+        Pelicula7.setText(Recomendaciones.get(index7).MovieTitle);
+        Director7.setText(Recomendaciones.get(index7).Director.Valor);
+        Anio7.setText(Integer.toString(Recomendaciones.get(index7).TitleYear.Valor));
+        Clasificacion7.setText(Recomendaciones.get(index7).ContentRating.Valor);
+        probabilidad7.setText("Compatibilidad" + df.format(Recomendaciones.get(index7).pGustar));
+
+        Pelicula8.setText(Recomendaciones.get(index8).MovieTitle);
+        Director8.setText(Recomendaciones.get(index8).Director.Valor);
+        Anio8.setText(Integer.toString(Recomendaciones.get(index8).TitleYear.Valor));
+        Clasificacion8.setText(Recomendaciones.get(index8).ContentRating.Valor);
+        probabilidad8.setText("Compatibilidad" + df.format(Recomendaciones.get(index8).pGustar));
     }
 
     public void marcarPositiva(String nombrePeli){
