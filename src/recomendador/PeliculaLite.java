@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class PeliculaLite{
 
+    boolean bPositivo = false;
+    boolean bNegativo = false;
+
     String MovieTitle = "";
     int MovieFaceBookLikes = 0;
     double imdbScore = 0.0;

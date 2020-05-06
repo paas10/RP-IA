@@ -55,63 +55,71 @@ public class app {
 
 
     public app() {
+
+        // Se lee el archivo y se inicializa el programa (Normaliza la info)
+        try {
+            peliculas = readFile();
+            //JOptionPane.showMessageDialog(null, "Todas las peliculas han sido recuperadas");
+
+            peliculas = normailizarData(peliculas);
+
+            imbd = new ArrayList<PeliculaLite>();
+            for (Pelicula pelicula: peliculas) {
+                imbd.add(new PeliculaLite(pelicula.MovieTitle, pelicula.Language.Valor, pelicula.ContentRating.Valor, pelicula.TitleYear.Valor,
+                        pelicula.Director.Valor, pelicula.MovieFaceBookLikes, pelicula.imdbScore));
+            }
+
+            Collections.sort(imbd, new Comparator<PeliculaLite>(){
+                @Override
+                public int compare(PeliculaLite o1, PeliculaLite o2) {
+                    return Integer.valueOf(o2.MovieFaceBookLikes).compareTo(o1.MovieFaceBookLikes);
+                }
+            });
+
+            index1 = 0;
+            index2 = 1;
+            index3 = 2;
+            index4 = 3;
+
+            Pelicula1.setText(imbd.get(index1).MovieTitle);
+            Director1.setText(imbd.get(index1).Director);
+            Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
+            Clasificacion1.setText(imbd.get(index1).ContentRating);
+
+            Pelicula2.setText(imbd.get(index2).MovieTitle);
+            Director2.setText(imbd.get(index2).Director);
+            Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
+            Clasificacion2.setText(imbd.get(index2).ContentRating);
+
+            Pelicula3.setText(imbd.get(index3).MovieTitle);
+            Director3.setText(imbd.get(index3).Director);
+            Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
+            Clasificacion3.setText(imbd.get(index3).ContentRating);
+
+            Pelicula4.setText(imbd.get(index4).MovieTitle);
+            Director4.setText(imbd.get(index4).Director);
+            Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
+            Clasificacion4.setText(imbd.get(index4).ContentRating);
+
+            //JOptionPane.showMessageDialog(null, "Se ha finalizado");
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+
+
         // Botón que recupera la info y la normaliza
         btnPrueba.addActionListener(new ActionListener() {
             @Override
 
             public void actionPerformed(ActionEvent e) {
-                try {
-                    peliculas = readFile();
-                    JOptionPane.showMessageDialog(null, "Todas las peliculas han sido recuperadas");
 
-                    peliculas = normailizarData(peliculas);
-
-                    imbd = new ArrayList<PeliculaLite>();
-                    for (Pelicula pelicula: peliculas) {
-                        imbd.add(new PeliculaLite(pelicula.MovieTitle, pelicula.Language.Valor, pelicula.ContentRating.Valor, pelicula.TitleYear.Valor,
-                                pelicula.Director.Valor, pelicula.MovieFaceBookLikes, pelicula.imdbScore));
-                    }
-
-                    Collections.sort(imbd, new Comparator<PeliculaLite>(){
-                        @Override
-                        public int compare(PeliculaLite o1, PeliculaLite o2) {
-                            return Integer.valueOf(o2.MovieFaceBookLikes).compareTo(o1.MovieFaceBookLikes);
-                        }
-                    });
-
-                    index1 = 0;
-                    index2 = 1;
-                    index3 = 2;
-                    index4 = 3;
-
-                    Pelicula1.setText(imbd.get(index1).MovieTitle);
-                    Director1.setText(imbd.get(index1).Director);
-                    Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
-                    Clasificacion1.setText(imbd.get(index1).ContentRating);
-
-                    Pelicula2.setText(imbd.get(index2).MovieTitle);
-                    Director2.setText(imbd.get(index2).Director);
-                    Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
-                    Clasificacion2.setText(imbd.get(index2).ContentRating);
-
-                    Pelicula3.setText(imbd.get(index3).MovieTitle);
-                    Director3.setText(imbd.get(index3).Director);
-                    Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
-                    Clasificacion3.setText(imbd.get(index3).ContentRating);
-
-                    Pelicula4.setText(imbd.get(index4).MovieTitle);
-                    Director4.setText(imbd.get(index4).Director);
-                    Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
-                    Clasificacion4.setText(imbd.get(index4).ContentRating);
-
-                    JOptionPane.showMessageDialog(null, "Se ha finalizado");
-
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
             }
 
         });
+
+
+
 
         Derecha1.addActionListener(new ActionListener() {
             @Override
@@ -127,21 +135,57 @@ public class app {
                     Director1.setText(imbd.get(index1).Director);
                     Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
                     Clasificacion1.setText(imbd.get(index1).ContentRating);
+                    if (imbd.get(index1).bPositivo)
+                        btnSiPelicula1.setForeground(Color.red);
+                    else
+                        btnSiPelicula1.setForeground(Color.black);
+                    if (imbd.get(index1).bNegativo)
+                        btnNoPelicula1.setForeground(Color.blue);
+                    else
+                        btnNoPelicula1.setForeground(Color.black);
+
 
                     Pelicula2.setText(imbd.get(index2).MovieTitle);
                     Director2.setText(imbd.get(index2).Director);
                     Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
                     Clasificacion2.setText(imbd.get(index2).ContentRating);
+                    if (imbd.get(index2).bPositivo)
+                        btnSiPelicula2.setForeground(Color.red);
+                    else
+                        btnSiPelicula2.setForeground(Color.black);
+                    if (imbd.get(index2).bNegativo)
+                        btnNoPelicula2.setForeground(Color.blue);
+                    else
+                        btnNoPelicula2.setForeground(Color.black);
+
 
                     Pelicula3.setText(imbd.get(index3).MovieTitle);
                     Director3.setText(imbd.get(index3).Director);
                     Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
                     Clasificacion3.setText(imbd.get(index3).ContentRating);
+                    if (imbd.get(index3).bPositivo)
+                        btnSiPelicula3.setForeground(Color.red);
+                    else
+                        btnSiPelicula3.setForeground(Color.black);
+                    if (imbd.get(index3).bNegativo)
+                        btnNoPelicula3.setForeground(Color.blue);
+                    else
+                        btnNoPelicula3.setForeground(Color.black);
+
 
                     Pelicula4.setText(imbd.get(index4).MovieTitle);
                     Director4.setText(imbd.get(index4).Director);
                     Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
                     Clasificacion4.setText(imbd.get(index4).ContentRating);
+                    if (imbd.get(index4).bPositivo)
+                        btnSiPelicula4.setForeground(Color.red);
+                    else
+                        btnSiPelicula4.setForeground(Color.black);
+                    if (imbd.get(index4).bNegativo)
+                        btnNoPelicula4.setForeground(Color.blue);
+                    else
+                        btnNoPelicula4.setForeground(Color.black);
+
                 }
             }
         });
@@ -159,21 +203,56 @@ public class app {
                     Director1.setText(imbd.get(index1).Director);
                     Anio1.setText(Integer.toString(imbd.get(index1).TitleYear));
                     Clasificacion1.setText(imbd.get(index1).ContentRating);
+                    if (imbd.get(index1).bPositivo)
+                        btnSiPelicula1.setForeground(Color.red);
+                    else
+                        btnSiPelicula1.setForeground(Color.black);
+                    if (imbd.get(index1).bNegativo)
+                        btnNoPelicula1.setForeground(Color.blue);
+                    else
+                        btnNoPelicula1.setForeground(Color.black);
+
 
                     Pelicula2.setText(imbd.get(index2).MovieTitle);
                     Director2.setText(imbd.get(index2).Director);
                     Anio2.setText(Integer.toString(imbd.get(index2).TitleYear));
                     Clasificacion2.setText(imbd.get(index2).ContentRating);
+                    if (imbd.get(index2).bPositivo)
+                        btnSiPelicula2.setForeground(Color.red);
+                    else
+                        btnSiPelicula2.setForeground(Color.black);
+                    if (imbd.get(index2).bNegativo)
+                        btnNoPelicula2.setForeground(Color.blue);
+                    else
+                        btnNoPelicula2.setForeground(Color.black);
+
 
                     Pelicula3.setText(imbd.get(index3).MovieTitle);
                     Director3.setText(imbd.get(index3).Director);
                     Anio3.setText(Integer.toString(imbd.get(index3).TitleYear));
                     Clasificacion3.setText(imbd.get(index3).ContentRating);
+                    if (imbd.get(index3).bPositivo)
+                        btnSiPelicula3.setForeground(Color.red);
+                    else
+                        btnSiPelicula3.setForeground(Color.black);
+                    if (imbd.get(index3).bNegativo)
+                        btnNoPelicula3.setForeground(Color.blue);
+                    else
+                        btnNoPelicula3.setForeground(Color.black);
+
 
                     Pelicula4.setText(imbd.get(index4).MovieTitle);
                     Director4.setText(imbd.get(index4).Director);
                     Anio4.setText(Integer.toString(imbd.get(index4).TitleYear));
                     Clasificacion4.setText(imbd.get(index4).ContentRating);
+                    if (imbd.get(index4).bPositivo)
+                        btnSiPelicula4.setForeground(Color.red);
+                    else
+                        btnSiPelicula4.setForeground(Color.black);
+                    if (imbd.get(index4).bNegativo)
+                        btnNoPelicula4.setForeground(Color.blue);
+                    else
+                        btnNoPelicula4.setForeground(Color.black);
                 }
             }
         });
@@ -184,116 +263,136 @@ public class app {
 
                 if(imbd != null){
                     String nombrePeli = imbd.get(index1).MovieTitle;
+                    imbd.get(index1).bPositivo = true;
+                    imbd.get(index1).bNegativo = false;
 
-                    for (Pelicula movie : peliculas) {
-                        if (movie.MovieTitle.equals(nombrePeli) && !movie.votada){
-                            System.out.println("Entró");
-                            movie.votada = true;
-                            movie.modificado = true;
+                    btnSiPelicula1.setForeground(Color.red);
+                    btnNoPelicula1.setForeground(Color.black);
 
-                            movie.Duration.AFavor++;
-                            movie.Color.AFavor++;
-                            movie.Generes.Modificado = true;
-                            for (sCategoria value : movie.Generes.Valores) {
-                                value.AFavor++;
-                            }
-                            movie.Language.AFavor++;
-                            movie.Country.AFavor++;
-                            movie.ContentRating.AFavor++;
-                            movie.TitleYear.AFavor++;
-                            movie.Director.AFavor++;
-                            movie.Actor1.AFavor++;
-                            movie.Actor2.AFavor++;
-                            movie.Actor3.AFavor++;
-
-                            // Se actualizan los normalizadores del resto de peliculas
-                            for (Pelicula pelicula : peliculas) {
-                                if (pelicula.Duration.Rango == movie.Duration.Rango) {
-                                    pelicula.Duration.AFavor = movie.Duration.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
-                                    pelicula.Color.AFavor = movie.Color.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                for (sCategoria value : pelicula.Generes.Valores) {
-                                    for (sCategoria movieValue : movie.Generes.Valores) {
-                                        if (value.Valor.equals(movieValue.Valor)) {
-                                            value.AFavor = movieValue.AFavor;
-                                            pelicula.Generes.Modificado = true;
-                                            pelicula.modificado = true;
-                                        }
-                                    }
-                                }
-
-                                if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
-                                    pelicula.Language.AFavor = movie.Language.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
-                                    pelicula.Country.AFavor = movie.Country.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.ContentRating.Valor.equals(movie.ContentRating.Valor)){
-                                    pelicula.ContentRating.AFavor = movie.ContentRating.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
-                                    pelicula.TitleYear.AFavor = movie.TitleYear.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
-                                    pelicula.Director.AFavor = movie.Director.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
-                                    pelicula.Actor1.AFavor = movie.Actor1.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
-                                    pelicula.Actor2.AFavor = movie.Actor1.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
-                                    pelicula.Actor3.AFavor = movie.Actor1.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
-                                    pelicula.Actor1.AFavor = movie.Actor2.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
-                                    pelicula.Actor2.AFavor = movie.Actor2.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
-                                    pelicula.Actor3.AFavor = movie.Actor3.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                                if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
-                                    pelicula.Actor1.AFavor = movie.Actor3.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
-                                    pelicula.Actor2.AFavor = movie.Actor3.AFavor;
-                                    pelicula.modificado = true;
-                                } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
-                                    pelicula.Actor3.AFavor = movie.Actor3.AFavor;
-                                    pelicula.modificado = true;
-                                }
-
-                            }
-
-                            btnSiPelicula1.setForeground(Color.red);
-                            System.out.println("ok");
-                            break;
-                        }
-                    }
+                    marcarPositiva(nombrePeli);
                 }
+            }
+        });
+        btnNoPelicula1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index1).MovieTitle;
+                    imbd.get(index1).bPositivo = false;
+                    imbd.get(index1).bNegativo = true;
+
+                    btnNoPelicula1.setForeground(Color.blue);
+                    btnSiPelicula1.setForeground(Color.black);
+
+                    marcarNegativa(nombrePeli);
+                }
+
+            }
+        });
+
+        btnSiPelicula2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index2).MovieTitle;
+                    imbd.get(index2).bPositivo = true;
+                    imbd.get(index2).bNegativo = false;
+
+                    btnSiPelicula2.setForeground(Color.red);
+                    btnNoPelicula2.setForeground(Color.black);
+
+                    marcarPositiva(nombrePeli);
+                }
+
+            }
+        });
+        btnNoPelicula2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index2).MovieTitle;
+                    imbd.get(index2).bPositivo = false;
+                    imbd.get(index2).bNegativo = true;
+
+                    btnNoPelicula2.setForeground(Color.blue);
+                    btnSiPelicula2.setForeground(Color.black);
+
+                    marcarNegativa(nombrePeli);
+                }
+
+            }
+        });
+
+        btnSiPelicula3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index3).MovieTitle;
+                    imbd.get(index3).bPositivo = true;
+                    imbd.get(index3).bNegativo = false;
+
+                    btnSiPelicula3.setForeground(Color.red);
+                    btnNoPelicula3.setForeground(Color.black);
+
+                    marcarPositiva(nombrePeli);
+                }
+
+            }
+        });
+        btnNoPelicula3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index3).MovieTitle;
+                    imbd.get(index3).bPositivo = false;
+                    imbd.get(index3).bNegativo = true;
+
+                    btnNoPelicula3.setForeground(Color.blue);
+                    btnSiPelicula3.setForeground(Color.black);
+
+                    marcarNegativa(nombrePeli);
+                }
+
+            }
+        });
+
+        btnSiPelicula4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index4).MovieTitle;
+                    imbd.get(index4).bPositivo = true;
+                    imbd.get(index4).bNegativo = false;
+
+                    btnSiPelicula4.setForeground(Color.red);
+                    btnNoPelicula4.setForeground(Color.black);
+
+                    marcarPositiva(nombrePeli);
+                }
+
+            }
+        });
+        btnNoPelicula4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(imbd != null){
+                    String nombrePeli = imbd.get(index4).MovieTitle;
+                    imbd.get(index4).bPositivo = false;
+                    imbd.get(index4).bNegativo = true;
+
+                    btnNoPelicula4.setForeground(Color.blue);
+                    btnSiPelicula4.setForeground(Color.black);
+
+                    marcarNegativa(nombrePeli);
+                }
+
             }
         });
 
@@ -327,7 +426,517 @@ public class app {
 
             }
         });
+
+
+
     }
+
+    public void marcarPositiva(String nombrePeli){
+        System.out.println("Pelicula votada si: " + nombrePeli);
+
+        for (Pelicula movie : peliculas) {
+            if (movie.MovieTitle.equals(nombrePeli)){
+
+                // Cambios en película y el resto
+                if (!movie.votada && !movie.bPositivo){
+
+                    System.out.println("Votó Positivo");
+                    movie.votada = true;
+                    movie.modificado = true;
+
+                    movie.Duration.AFavor++;
+                    movie.Color.AFavor++;
+                    movie.Generes.Modificado = true;
+                    for (sCategoria value : movie.Generes.Valores) {
+                        value.AFavor++;
+                    }
+                    movie.Language.AFavor++;
+                    movie.Country.AFavor++;
+                    movie.ContentRating.AFavor++;
+                    movie.TitleYear.AFavor++;
+                    movie.Director.AFavor++;
+                    movie.Actor1.AFavor++;
+                    movie.Actor2.AFavor++;
+                    movie.Actor3.AFavor++;
+
+                    // Se actualizan los normalizadores del resto de peliculas
+                    for (Pelicula pelicula : peliculas) {
+                        if (pelicula.Duration.Rango == movie.Duration.Rango) {
+                            pelicula.Duration.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
+                            pelicula.Color.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        for (sCategoria value : pelicula.Generes.Valores) {
+                            for (sCategoria movieValue : movie.Generes.Valores) {
+                                if (value.Valor.equals(movieValue.Valor)) {
+                                    value.AFavor++;
+                                    pelicula.Generes.Modificado = true;
+                                    pelicula.modificado = true;
+                                }
+                            }
+                        }
+
+                        if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
+                            pelicula.Language.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
+                            pelicula.Country.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.ContentRating.Valor.equals(movie.ContentRating.Valor)){
+                            pelicula.ContentRating.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
+                            pelicula.TitleYear.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
+                            pelicula.Director.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.modificado = true;
+                        }
+
+                    }
+
+                    System.out.println("ok");
+                    break;
+
+                }
+                else if (movie.votada && !movie.bNegativo){
+
+                    System.out.println("Votó Positivo pero Antes fue Negativo");
+                    movie.votada = true;
+                    movie.modificado = true;
+
+                    movie.Duration.AFavor++;
+                    movie.Duration.EnContra--;
+                    movie.Color.AFavor++;
+                    movie.Color.EnContra--;
+                    movie.Generes.Modificado = true;
+                    for (sCategoria value : movie.Generes.Valores) {
+                        value.AFavor++;
+                        value.EnContra--;
+                    }
+                    movie.Language.AFavor++;
+                    movie.Language.EnContra--;
+                    movie.Country.AFavor++;
+                    movie.Country.EnContra--;
+                    movie.ContentRating.AFavor++;
+                    movie.ContentRating.EnContra--;
+                    movie.TitleYear.AFavor++;
+                    movie.TitleYear.EnContra--;
+                    movie.Director.AFavor++;
+                    movie.Duration.EnContra--;
+                    movie.Actor1.AFavor++;
+                    movie.Actor1.EnContra--;
+                    movie.Actor2.AFavor++;
+                    movie.Actor2.EnContra--;
+                    movie.Actor3.AFavor++;
+                    movie.Actor3.EnContra--;
+
+                    // Se actualizan los normalizadores del resto de peliculas
+                    for (Pelicula pelicula : peliculas) {
+                        if (pelicula.Duration.Rango == movie.Duration.Rango) {
+                            pelicula.Duration.AFavor++;
+                            pelicula.Duration.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
+                            pelicula.Color.AFavor++;
+                            pelicula.Color.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        for (sCategoria value : pelicula.Generes.Valores) {
+                            for (sCategoria movieValue : movie.Generes.Valores) {
+                                if (value.Valor.equals(movieValue.Valor)) {
+                                    value.AFavor++;
+                                    value.EnContra--;
+                                    pelicula.Generes.Modificado = true;
+                                    pelicula.modificado = true;
+                                }
+                            }
+                        }
+
+                        if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
+                            pelicula.Language.AFavor++;
+                            pelicula.Language.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
+                            pelicula.Country.AFavor++;
+                            pelicula.Country.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.ContentRating.Valor.equals(movie.ContentRating.Valor)){
+                            pelicula.ContentRating.AFavor++;
+                            pelicula.ContentRating.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
+                            pelicula.TitleYear.AFavor++;
+                            pelicula.TitleYear.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
+                            pelicula.Director.AFavor++;
+                            pelicula.Director.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.Actor1.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.Actor2.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.Actor3.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.Actor1.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.Actor3.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.Actor3.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor1.AFavor++;
+                            pelicula.Actor1.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor2.AFavor++;
+                            pelicula.Actor2.EnContra--;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor++;
+                            pelicula.Actor2.EnContra--;
+                            pelicula.modificado = true;
+                        }
+
+                    }
+
+                    System.out.println("ok");
+                    break;
+
+                }
+            }
+        }
+    }
+    public void marcarNegativa(String nombrePeli){
+        System.out.println("Pelicula votada no: " + nombrePeli);
+
+        for (Pelicula movie : peliculas) {
+            if (movie.MovieTitle.equals(nombrePeli)){
+
+                // Cambios en película y el resto
+                if (!movie.votada && !movie.bPositivo){
+
+                    System.out.println("Votó Negativo");
+                    movie.votada = true;
+                    movie.modificado = true;
+
+                    movie.Duration.EnContra++;
+                    movie.Color.EnContra++;
+                    movie.Generes.Modificado = true;
+                    for (sCategoria value : movie.Generes.Valores) {
+                        value.EnContra++;
+                    }
+                    movie.Language.EnContra++;
+                    movie.Country.EnContra++;
+                    movie.ContentRating.EnContra++;
+                    movie.TitleYear.EnContra++;
+                    movie.Director.EnContra++;
+                    movie.Actor1.EnContra++;
+                    movie.Actor2.EnContra++;
+                    movie.Actor3.EnContra++;
+
+                    // Se actualizan los normalizadores del resto de peliculas
+                    for (Pelicula pelicula : peliculas) {
+                        if (pelicula.Duration.Rango == movie.Duration.Rango) {
+                            pelicula.Duration.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
+                            pelicula.Color.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        for (sCategoria value : pelicula.Generes.Valores) {
+                            for (sCategoria movieValue : movie.Generes.Valores) {
+                                if (value.Valor.equals(movieValue.Valor)) {
+                                    value.EnContra++;
+                                    pelicula.Generes.Modificado = true;
+                                    pelicula.modificado = true;
+                                }
+                            }
+                        }
+
+                        if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
+                            pelicula.Language.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
+                            pelicula.Country.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.ContentRating.Valor.equals(movie.ContentRating.Valor)){
+                            pelicula.ContentRating.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
+                            pelicula.TitleYear.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
+                            pelicula.Director.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                    }
+
+                    System.out.println("ok");
+                    break;
+
+                }
+                else if (movie.votada && !movie.bNegativo){
+
+                    System.out.println("Votó Negativo pero Antes fue Positivo");
+                    movie.votada = true;
+                    movie.modificado = true;
+
+                    movie.Duration.AFavor--;
+                    movie.Duration.EnContra++;
+                    movie.Color.AFavor--;
+                    movie.Color.EnContra++;
+                    movie.Generes.Modificado = true;
+                    for (sCategoria value : movie.Generes.Valores) {
+                        value.AFavor--;
+                        value.EnContra++;
+                    }
+                    movie.Language.AFavor--;
+                    movie.Language.EnContra++;
+                    movie.Country.AFavor--;
+                    movie.Country.EnContra++;
+                    movie.ContentRating.AFavor--;
+                    movie.ContentRating.EnContra++;
+                    movie.TitleYear.AFavor--;
+                    movie.TitleYear.EnContra++;
+                    movie.Director.AFavor--;
+                    movie.Duration.EnContra++;
+                    movie.Actor1.AFavor--;
+                    movie.Actor1.EnContra++;
+                    movie.Actor2.AFavor--;
+                    movie.Actor2.EnContra++;
+                    movie.Actor3.AFavor--;
+                    movie.Actor3.EnContra++;
+
+                    // Se actualizan los normalizadores del resto de peliculas
+                    for (Pelicula pelicula : peliculas) {
+                        if (pelicula.Duration.Rango == movie.Duration.Rango) {
+                            pelicula.Duration.AFavor--;
+                            pelicula.Duration.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Color.Valor.equals(movie.Color.Valor)) {
+                            pelicula.Color.AFavor--;
+                            pelicula.Color.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        for (sCategoria value : pelicula.Generes.Valores) {
+                            for (sCategoria movieValue : movie.Generes.Valores) {
+                                if (value.Valor.equals(movieValue.Valor)) {
+                                    value.AFavor--;
+                                    value.EnContra++;
+                                    pelicula.Generes.Modificado = true;
+                                    pelicula.modificado = true;
+                                }
+                            }
+                        }
+
+                        if (pelicula.Language.Valor.equals(movie.Language.Valor)) {
+                            pelicula.Language.AFavor--;
+                            pelicula.Language.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Country.Valor.equals(movie.Country.Valor)) {
+                            pelicula.Country.AFavor--;
+                            pelicula.Country.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.ContentRating.Valor.equals(movie.ContentRating.Valor)){
+                            pelicula.ContentRating.AFavor--;
+                            pelicula.ContentRating.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.TitleYear.Rango == movie.TitleYear.Rango) {
+                            pelicula.TitleYear.AFavor--;
+                            pelicula.TitleYear.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Director.Valor.equals(movie.Director.Valor)) {
+                            pelicula.Director.AFavor--;
+                            pelicula.Director.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor1.AFavor--;
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor2.AFavor--;
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor1.Valor)) {
+                            pelicula.Actor3.AFavor--;
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor1.AFavor--;
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor2.Valor)) {
+                            pelicula.Actor2.AFavor--;
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor--;
+                            pelicula.Actor3.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                        if (pelicula.Actor1.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor1.AFavor--;
+                            pelicula.Actor1.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor2.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor2.AFavor--;
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        } else if (pelicula.Actor3.Valor.equals(movie.Actor3.Valor)) {
+                            pelicula.Actor3.AFavor--;
+                            pelicula.Actor2.EnContra++;
+                            pelicula.modificado = true;
+                        }
+
+                    }
+
+                    System.out.println("ok");
+                    break;
+
+                }
+            }
+        }
+    }
+
+
 
     public static Pelicula[] normailizarData(Pelicula[] peliculas){
         for (int i = 0; i < peliculas.length; i++){

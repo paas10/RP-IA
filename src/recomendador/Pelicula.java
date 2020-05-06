@@ -7,6 +7,8 @@ public class Pelicula {
 
     // Bandera que indica si el titulo ya ha sido votado por el usuario
     boolean votada = false;
+    boolean bPositivo = false;
+    boolean bNegativo = false;
     // Bandera que indica si el usuario está interesado en el titulo (Reservado / Watchlist)
     boolean interes = false;
     // Bandera que indica si se han modificado los valores para volver a obtener la probabilidad de Interés
