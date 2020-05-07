@@ -19,8 +19,8 @@ public class Pelicula {
     double pNoGustar = 0.0;
 
     // Probabilidades De que una pelicula guste o no
-    double pPeliculaSi = Math.log(0.50);
-    double pPeliculaNo = Math.log(0.50);
+    double pPeliculaSi = Math.log(0.25);
+    double pPeliculaNo = Math.log(0.75);
 
     // Suma de logaritmos naturales
     double AFavor = 0.0;

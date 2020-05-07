@@ -14,10 +14,14 @@ import java.util.*;
 public class app {
 
     public ArrayList<Pelicula> Recomendaciones;
+    public ArrayList<PeliculaLite> Busqueda;
     public ArrayList<PeliculaLite> imbd;
     Pelicula[] peliculas;
 
     DecimalFormat df = new DecimalFormat("#.00000");
+
+    public int indexB1 = 0;
+    public int indexB2 = 0;
 
     public int index1 = 0;
     public int index2 = 0;
@@ -29,7 +33,7 @@ public class app {
     public int index7 = 0;
     public int index8 = 0;
 
-    private JButton btnPrueba;
+    private JButton btnBuscador;
     private JPanel mainPanel;
     private JButton btnSiPelicula1;
     private JButton btnNoPelicula1;
@@ -88,6 +92,29 @@ public class app {
     private JLabel Clasificacion6;
     private JLabel Clasificacion8;
     private JLabel Clasificacion7;
+    private JTextField parametrosBusqueda;
+    private JLabel BusquedaTitulo1;
+    private JLabel BusquedaTitulo2;
+    private JLabel BusquedaTitulo3;
+    private JLabel BusquedaTitulo4;
+    private JLabel BusquedaDirector4;
+    private JLabel BusquedaDirector3;
+    private JLabel BusquedaDirector2;
+    private JLabel BusquedaDirector1;
+    private JLabel BusquedaAnio1;
+    private JLabel BusquedaAnio2;
+    private JLabel BusquedaAnio3;
+    private JLabel BusquedaAnio4;
+    private JLabel BusquedaClasificacion4;
+    private JLabel BusquedaClasificacion3;
+    private JLabel BusquedaClasificacion2;
+    private JLabel BusquedaClasificacion1;
+    private JButton btnSiBusqueda1;
+    private JButton btnSiBusqueda2;
+    private JButton btnNoBusqueda2;
+    private JButton btnNoBusqueda1;
+    private JButton Derecha0;
+    private JButton Izquierda0;
 
 
     public app() {
@@ -145,13 +172,162 @@ public class app {
 
 
         // Botón que recupera la info y la normaliza
-        btnPrueba.addActionListener(new ActionListener() {
+        btnBuscador.addActionListener(new ActionListener() {
             @Override
-
             public void actionPerformed(ActionEvent e) {
 
-            }
+                Busqueda = new ArrayList<PeliculaLite>();
+                String busqueda = parametrosBusqueda.getText().toUpperCase();
 
+                if (!busqueda.trim().equals("")){
+
+                    for (Pelicula movie : peliculas) {
+                        if (movie.MovieTitle.toUpperCase().contains(busqueda))
+                            Busqueda.add(new PeliculaLite(movie.MovieTitle, movie.Language.Valor, movie.ContentRating.Valor,
+                                    movie.TitleYear.Valor, movie.Director.Valor, movie.MovieFaceBookLikes, movie.imdbScore));
+                    }
+
+                    System.out.println("Cantidad de películas encontradas " + Busqueda.size());
+
+                    indexB1 = 0;
+                    indexB2 = 1;
+
+                    RefrescarBusqueda();
+
+                }
+            }
+        });
+
+        Derecha0.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (indexB2 != Busqueda.size() - 1  && Busqueda.size() > 2){
+                    indexB1++;
+                    indexB2++;
+
+                    RefrescarBusqueda();
+                }
+
+            }
+        });
+        Izquierda0.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (indexB1 != 0){
+                    indexB1--;
+                    indexB2--;
+
+                    RefrescarBusqueda();
+                }
+            }
+        });
+
+        btnSiBusqueda1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Busqueda != null && Busqueda.size() >=1){
+                    String nombrePeli = Busqueda.get(indexB1).MovieTitle;
+                    Busqueda.get(indexB1).bPositivo = true;
+                    Busqueda.get(indexB1).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    btnSiBusqueda1.setForeground(Color.red);
+                    btnNoBusqueda1.setForeground(Color.black);
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+                }
+
+            }
+        });
+        btnNoBusqueda1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Busqueda != null && Busqueda.size() >=1){
+                    String nombrePeli = Busqueda.get(indexB1).MovieTitle;
+                    Busqueda.get(indexB1).bPositivo = true;
+                    Busqueda.get(indexB1).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    btnNoBusqueda1.setForeground(Color.blue);
+                    btnSiBusqueda1.setForeground(Color.black);
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+                }
+
+            }
+        });
+
+        btnSiBusqueda2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Busqueda != null && Busqueda.size() >=2){
+                    String nombrePeli = Busqueda.get(indexB2).MovieTitle;
+                    Busqueda.get(indexB2).bPositivo = true;
+                    Busqueda.get(indexB2).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    btnSiBusqueda2.setForeground(Color.red);
+                    btnNoBusqueda2.setForeground(Color.black);
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+                }
+
+            }
+        });
+        btnNoBusqueda2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Busqueda != null && Busqueda.size() >=2){
+                    String nombrePeli = Busqueda.get(indexB2).MovieTitle;
+                    Busqueda.get(indexB2).bPositivo = true;
+                    Busqueda.get(indexB2).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    btnNoBusqueda2.setForeground(Color.blue);
+                    btnSiBusqueda2.setForeground(Color.black);
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+                }
+
+            }
         });
 
 
@@ -323,7 +499,7 @@ public class app {
 
             }
         });
-        
+
 
         btnVerRecomendaciones.addActionListener(new ActionListener() {
             @Override
@@ -358,29 +534,7 @@ public class app {
                 index7 = 2;
                 index8 = 3;
 
-                Pelicula5.setText(Recomendaciones.get(index5).MovieTitle);
-                Director5.setText(Recomendaciones.get(index5).Director.Valor);
-                Anio5.setText(Integer.toString(Recomendaciones.get(index5).TitleYear.Valor));
-                Clasificacion5.setText(Recomendaciones.get(index5).ContentRating.Valor);
-                probabilidad5.setText(String.format("%.5f", Recomendaciones.get(index5).pGustar));
-
-                Pelicula6.setText(Recomendaciones.get(index6).MovieTitle);
-                Director6.setText(Recomendaciones.get(index6).Director.Valor);
-                Anio6.setText(Integer.toString(Recomendaciones.get(index6).TitleYear.Valor));
-                Clasificacion6.setText(Recomendaciones.get(index6).ContentRating.Valor);
-                probabilidad6.setText(String.format("%.5f", Recomendaciones.get(index6).pGustar));
-
-                Pelicula7.setText(Recomendaciones.get(index7).MovieTitle);
-                Director7.setText(Recomendaciones.get(index7).Director.Valor);
-                Anio7.setText(Integer.toString(Recomendaciones.get(index7).TitleYear.Valor));
-                Clasificacion7.setText(Recomendaciones.get(index7).ContentRating.Valor);
-                probabilidad7.setText(String.format("%.5f", Recomendaciones.get(index7).pGustar));
-
-                Pelicula8.setText(Recomendaciones.get(index8).MovieTitle);
-                Director8.setText(Recomendaciones.get(index8).Director.Valor);
-                Anio8.setText(Integer.toString(Recomendaciones.get(index8).TitleYear.Valor));
-                Clasificacion8.setText(Recomendaciones.get(index8).ContentRating.Valor);
-                probabilidad8.setText(String.format("%.5f", Recomendaciones.get(index8).pGustar));
+                RefrescarRecomendaciones();
 
             }
         });
@@ -415,8 +569,262 @@ public class app {
 
             }
         });
+
+        btnSiPelicula5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index5).MovieTitle;
+                    Recomendaciones.get(index5).bPositivo = true;
+                    Recomendaciones.get(index5).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index5);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+        btnNoPelicula5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index5).MovieTitle;
+                    Recomendaciones.get(index5).bPositivo = false;
+                    Recomendaciones.get(index5).bNegativo = true;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como negativa la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index5);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+
+        btnSiPelicula6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index6).MovieTitle;
+                    Recomendaciones.get(index6).bPositivo = true;
+                    Recomendaciones.get(index6).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index6);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+        btnNoPelicula6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index6).MovieTitle;
+                    Recomendaciones.get(index6).bPositivo = false;
+                    Recomendaciones.get(index6).bNegativo = true;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como negativa la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index6);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+
+        btnSiPelicula7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index7).MovieTitle;
+                    Recomendaciones.get(index7).bPositivo = true;
+                    Recomendaciones.get(index7).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index7);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+        btnNoPelicula7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index7).MovieTitle;
+                    Recomendaciones.get(index7).bPositivo = false;
+                    Recomendaciones.get(index7).bNegativo = true;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como negativa la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index7);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+
+        btnSiPelicula8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index8).MovieTitle;
+                    Recomendaciones.get(index8).bPositivo = true;
+                    Recomendaciones.get(index8).bNegativo = false;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como favorita la película en el arreglo principal de películas
+                    marcarPositiva(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index8);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+        btnNoPelicula8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(Recomendaciones != null){
+                    String nombrePeli = Recomendaciones.get(index8).MovieTitle;
+                    Recomendaciones.get(index8).bPositivo = false;
+                    Recomendaciones.get(index8).bNegativo = true;
+
+                    for (PeliculaLite imdbPeli : imbd) {
+                        if (imdbPeli.MovieTitle.equals(nombrePeli)){
+                            imdbPeli.bPositivo = true;
+                            imdbPeli.bNegativo = false;
+                            break;
+                        }
+                    }
+
+                    // Se marca como negativa la película en el arreglo principal de películas
+                    marcarNegativa(nombrePeli);
+
+                    // Se remueve de las recomendaciones la película marcada y se refrescan las posiciones
+                    Recomendaciones.remove(index8);
+                    RefrescarRecomendaciones();
+                }
+
+            }
+        });
+
     }
 
+    public void RefrescarBusqueda(){
+
+        if (Busqueda.size() >= 1){
+            BusquedaTitulo1.setText(Busqueda.get(indexB1).MovieTitle);
+            BusquedaDirector1.setText(Busqueda.get(indexB1).Director);
+            BusquedaAnio1.setText(Integer.toString(Busqueda.get(indexB1).TitleYear));
+            BusquedaClasificacion1.setText(Busqueda.get(indexB1).ContentRating);
+            if (Busqueda.get(indexB1).bPositivo)
+                btnSiBusqueda1.setForeground(Color.red);
+            else
+                btnSiBusqueda1.setForeground(Color.black);
+            if (Busqueda.get(indexB1).bNegativo)
+                btnNoBusqueda1.setForeground(Color.blue);
+            else
+                btnNoBusqueda1.setForeground(Color.black);
+        }
+
+        if (Busqueda.size() >= 2){
+            BusquedaTitulo2.setText(Busqueda.get(indexB2).MovieTitle);
+            BusquedaDirector2.setText(Busqueda.get(indexB2).Director);
+            BusquedaAnio2.setText(Integer.toString(Busqueda.get(indexB2).TitleYear));
+            BusquedaClasificacion2.setText(Busqueda.get(indexB2).ContentRating);
+            if (Busqueda.get(indexB2).bPositivo)
+                btnSiBusqueda2.setForeground(Color.red);
+            else
+                btnSiBusqueda2.setForeground(Color.black);
+            if (Busqueda.get(indexB2).bNegativo)
+                btnNoBusqueda2.setForeground(Color.blue);
+            else
+                btnNoBusqueda2.setForeground(Color.black);
+        }
+
+    }
     public void RefrescarFaceBookLikes(){
         Pelicula1.setText(imbd.get(index1).MovieTitle);
         Director1.setText(imbd.get(index1).Director);
@@ -478,25 +886,25 @@ public class app {
         Director5.setText(Recomendaciones.get(index5).Director.Valor);
         Anio5.setText(Integer.toString(Recomendaciones.get(index5).TitleYear.Valor));
         Clasificacion5.setText(Recomendaciones.get(index5).ContentRating.Valor);
-        probabilidad5.setText("Compatibilidad" + df.format(Recomendaciones.get(index5).pGustar));
+        probabilidad5.setText(String.format("%.8f", Recomendaciones.get(index5).pGustar));
 
         Pelicula6.setText(Recomendaciones.get(index6).MovieTitle);
         Director6.setText(Recomendaciones.get(index6).Director.Valor);
         Anio6.setText(Integer.toString(Recomendaciones.get(index6).TitleYear.Valor));
         Clasificacion6.setText(Recomendaciones.get(index6).ContentRating.Valor);
-        probabilidad6.setText("Compatibilidad" + df.format(Recomendaciones.get(index6).pGustar));
+        probabilidad6.setText(String.format("%.8f", Recomendaciones.get(index6).pGustar));
 
         Pelicula7.setText(Recomendaciones.get(index7).MovieTitle);
         Director7.setText(Recomendaciones.get(index7).Director.Valor);
         Anio7.setText(Integer.toString(Recomendaciones.get(index7).TitleYear.Valor));
         Clasificacion7.setText(Recomendaciones.get(index7).ContentRating.Valor);
-        probabilidad7.setText("Compatibilidad" + df.format(Recomendaciones.get(index7).pGustar));
+        probabilidad7.setText(String.format("%.8f", Recomendaciones.get(index7).pGustar));
 
         Pelicula8.setText(Recomendaciones.get(index8).MovieTitle);
         Director8.setText(Recomendaciones.get(index8).Director.Valor);
         Anio8.setText(Integer.toString(Recomendaciones.get(index8).TitleYear.Valor));
         Clasificacion8.setText(Recomendaciones.get(index8).ContentRating.Valor);
-        probabilidad8.setText("Compatibilidad" + df.format(Recomendaciones.get(index8).pGustar));
+        probabilidad8.setText(String.format("%.8f", Recomendaciones.get(index8).pGustar));
     }
 
     public void marcarPositiva(String nombrePeli){
@@ -1213,5 +1621,9 @@ public class app {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
