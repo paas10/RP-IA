@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Collections;
@@ -1586,28 +1588,36 @@ public class app {
     // Lee el archivo con Data y lo introduce a un array de objeto película
     public static Pelicula[] readFile() throws FileNotFoundException {
         String txt = "";
-        File file = new File("/Users/pabloalvarado/Desktop/movie_metadata.csv");
+
+        Path rutaArchivo = Paths.get("movie_metadata.csv");
+        File file = new File(String.valueOf(rutaArchivo));
+        //File file = new File("/Users/pabloalvarado/Desktop/movie_metadata.csv");
+
         Scanner myReader = new Scanner(file);
         myReader.nextLine();
 
-        Pelicula[] peliculas = new Pelicula[5043];
+        ArrayList<String> nombrePeliculas = new ArrayList<>();
+        Pelicula[] peliculas = new Pelicula[4916];
         int i = 0;
-
-        int cero = 0;
 
         while (myReader.hasNextLine()) {
             String[] data = myReader.nextLine().split("ˆ");
             String[] Generets = data[9].trim().split("}");
             String[] PlotKeyWords = data[16].trim().split("}");
 
-            Pelicula pelicula = new Pelicula(data[11].trim(), data[3].trim().equals("") ? 0 : Integer.parseInt(data[3].trim()),
-                    data[0].trim(), Generets, PlotKeyWords, data[19].trim(), data[20].trim(), data[21].trim(),
-                    data[23].trim().equals("") ? 0 : Integer.parseInt(data[23].trim()), data[27].trim().equals("") ? 0 : Integer.parseInt(data[27].trim()),
-                    Double.parseDouble(data[25].trim()), data[1].trim(), data[10].trim(), data[6].trim(), data[14].trim());
+            if (!nombrePeliculas.contains(data[11].trim())){
+                Pelicula pelicula = new Pelicula(data[11].trim(), data[3].trim().equals("") ? 0 : Integer.parseInt(data[3].trim()),
+                        data[0].trim(), Generets, PlotKeyWords, data[19].trim(), data[20].trim(), data[21].trim(),
+                        data[23].trim().equals("") ? 0 : Integer.parseInt(data[23].trim()), data[27].trim().equals("") ? 0 : Integer.parseInt(data[27].trim()),
+                        Double.parseDouble(data[25].trim()), data[1].trim(), data[10].trim(), data[6].trim(), data[14].trim());
 
-            //System.out.println(i);
-            peliculas[i] = pelicula;
-            i++;
+                //System.out.println(i);
+                nombrePeliculas.add(data[11].trim());
+                peliculas[i] = pelicula;
+                i++;
+            }
+
+
         }
         myReader.close();
 
